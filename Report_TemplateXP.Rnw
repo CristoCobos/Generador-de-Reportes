@@ -1,0 +1,286 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\decimalpoint
+\usepackage{longtable}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{fancyhdr}
+\usepackage{needspace}
+%\usepackage{anyfontsize}
+\usepackage[indent]{parskip}
+\usepackage{multirow}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}p{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}p{#1}}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}p{#1}}
+\usepackage{float}
+\usepackage{tikz}    
+    \usetikzlibrary{babel}
+    \usetikzlibrary{arrows.meta,calc,positioning,shapes,arrows,decorations.pathmorphing}
+    \usetikzlibrary{cd}
+\usepackage[breaklinks=true,
+colorlinks=true,linkcolor=blue!22!black,urlcolor=blue,citecolor=black,anchorcolor=blue!70!black,
+bookmarks=true,pdfpagelayout=TwoPageRight]{hyperref}
+\renewcommand{\baselinestretch}{1.5}
+\setlength{\parskip}{6mm}
+\usepackage{colortbl, xcolor}
+\usepackage[letterpaper, left=2cm, right=2cm, top=2.5cm, bottom=2.5cm]{geometry}
+\listfiles
+\definecolor{Pantone}{rgb}{0.725,0.066,0.086}
+\definecolor{PantoneOrange}{rgb}{0.886,0.275,0.133}
+\definecolor{PantoneSec}{rgb}{0.91,0.392,0.110}
+\definecolor{Vino}{rgb}{0.518,0.094,0.086}
+\definecolor{GrisI}{rgb}{0.616,0.616,0.651}
+\definecolor{GrisC}{rgb}{0.816,0.816,0.851}
+\lhead{}
+\chead{\ooalign{%
+\color{PantoneSec}% background box color
+\rule[0.04in]{6.5in}{0.4in}% background box raise, width, height
+\cr
+\hfil\strut\raisebox{0.2in}{% number raise
+%\fontfamily{ugq}\selectfont\bfseries\color{white}% number color
+\color{white}
+``Estudiar a los Estudiantes y Satisfacción en la Trayectoria Escolar''
+\scriptsize% totalnumber fontsize
+}\hfil
+}}
+\rhead{\ooalign{%
+\color{Pantone}% background box color
+\rule[0.04in]{0.5in}{0.4in}% background box raise, width, height
+\cr
+\hfil\strut\raisebox{0.2in}{% number raise
+%\fontfamily{ugq}\selectfont\bfseries\color{white}% number color
+\selectfont\bfseries\color{white}
+\large% number fontsize
+\thepage
+\kern0.1em% distance number-bar
+\kern0.15em% distance bar-totalnumber
+\small% totalnumber fontsize
+}\hfil
+}}
+\renewcommand{\headrulewidth}{0pt}
+\lfoot{}
+\cfoot{}
+\rfoot{}
+\renewcommand{\footrulewidth}{0pt}
+
+\pagestyle{fancy}
+
+
+
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+
+<<label=start, echo=FALSE, include=FALSE>>=
+
+
+Base<-BaseG[BaseG$centroCostoDes==id & BaseG$programaAcademico==id2,]
+
+col<-unique(Colut$NOMENCLATURA)
+BaseU<-Base[,c("centroCostoDes","programaAcademico",col)]
+
+
+for(i in col){
+  temp<-Colut[Colut$NOMENCLATURA==i,]
+  for(j in temp$VALORES){
+    BaseU[which(BaseU[,i]==j),i]<-temp$ETIQUETAS[temp$VALORES==j]
+  }
+}
+
+tablitas<-list()
+for(i in seq(max(Colut$NÚMERO,na.rm = T))){
+  temp<-Colut[Colut$NÚMERO==i,]
+  desc<-temp[!duplicated(temp$NOMENCLATURA),c("DESCRIPCIÓN","NOMENCLATURA")]
+  etiq<-unique(temp$ETIQUETAS)
+  tablitas[[temp$CLAVE.VARIABLE[1]]]<-create_table(BaseU[,unique(temp$NOMENCLATURA)],temp$TIPO[1],desc,etiq,i)
+}
+
+@ 
+
+\title{EsEsTySa}
+\author{``DragonFiction''}
+\begin{titlepage}
+\newgeometry{left=4.5cm,top=17cm,bottom=1cm,right=1cm}
+\begin{tikzpicture}[remember picture, overlay]
+\node[opacity=1,inner sep=0pt] at (current page.center)
+{\includegraphics[width=\paperwidth,height=\paperheight]{Portada_sistemas.png}};
+\end{tikzpicture}
+\vphantom{A}
+\vfill
+
+
+\noindent{\LARGE{\textbf{``Estudiar a los Estudiantes y Satisfacción en la Trayectoria Escolar (EsEsTySa)''}}}\\
+{\Large{\textbf{Informe de resultados 2024}}}\\
+\noindent
+\makebox[0pt][l]{\rule{1.3\textwidth}{1pt}}\\
+\noindent
+{\large{\sffamily\bfseries 
+<<label=test, echo=FALSE, results=tex>>= 
+cat(id)
+@
+}}\\
+{\large{\sffamily\bfseries 
+<<label=test, echo=FALSE, results=tex>>= 
+cat(id2)
+@
+}}
+
+%\noindent \textsf{(versión parcial de \today.)}
+\noindent \textsf{Febrero 2025.}
+
+\end{titlepage}
+\restoregeometry
+
+\newpage
+
+\textbf{Autores}\\
+Monroy Muñoz Jesús Israel\\
+Martínez Maldonado Eric\\
+Martínez Gallardo Norma\\
+Olvera Larios Brenda Ivonne\\
+Samperio Márquez Víctor Manuel\\
+Elizalde Lora Leticia\\
+González Castillo Mayra Karen\\
+López Cruz María de los Ángeles\\
+Pérez Enzastiga José Antonio\\
+González Mociños Nancy\\
+López Orozco Maricela\\
+Montiel Pavana Anaid\\
+Vargas Pérez América Jocelyn\\
+Rangel Soto Stephany\\
+Orozco Rosales Itzayana\\
+Hernández Carmen Itzel\\
+Guzmán López Aline Sarahí\\
+Díaz Flores Francelli
+
+\vskip3\baselineskip
+
+\textbf{Apoyo secretarial}\\
+Aguilera Coiffier Ma. de la Luz\\
+Hernández Gómez Ayme
+
+\vskip4\baselineskip
+
+\noindent Enero, 2025\\
+Registro público de derecho de autor: 03-2014-062511300000-01 ®Universidad Autónoma del Estado de Hidalgo Abasolo 600, Col. Centro, Pachuca, Hgo. México. CP 42000\\
+Prohibida la reproducción parcial o total de esta obra sin el consentimiento escrito de la UAEH.
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+
+<<label=Tables, echo=FALSE, results=tex>>=
+cat("\n")
+for(i in seq(tablitas)[-1]){
+  temp<-Colut[Colut$NÚMERO==i,]
+  temp1<-tablitas[[i]]
+  if(temp$TIPO[1]<4){
+    colnames(temp1)<-str_replace(colnames(temp1),"%","\\\\%")
+    colnames(temp1)<-paste0("\\multicolumn{1}{c|}{\\textcolor{white}{", colnames(temp1), "}}")
+    dig=c(0,rep(c(0,2),ncol(tablitas[[i]])/2))
+    options(xtable.sanitize.colnames.function=identity)
+    #if(temp$TIPO[1]!=3)
+    ali<-c("|p{0.2\\textwidth}|",
+           rep(c("R{0.040\\textwidth}|","R{0.040\\textwidth}|"),ncol(tablitas[[i]])/2))
+    if(temp$DIMENSIÓN[1]!=Colut[Colut$NÚMERO==(i-1),]$DIMENSIÓN[1] & Colut[Colut$NÚMERO==(i-1),]$DIMENSIÓN[1]!="Datos de identificación"){
+      cat("\n\n")
+    }
+    cat("\n")
+    cat("\\Needspace{6\\baselineskip}\n")
+    if(temp$DIMENSIÓN[1]!=Colut[Colut$NÚMERO==(i-1),]$DIMENSIÓN[1]){
+      cat(paste0("\\subsection*{",temp$DIMENSIÓN[1],"}\n
+\\addcontentsline{toc}{subsection}{\\protect\\numberline{}",temp$DIMENSIÓN[1],"}\n\n"))
+    }
+    cat(paste(names(tablitas)[i],sep=""))
+    cat("\n")
+  }
+  if(temp$TIPO[1] %in% 1:2){
+    print(xtable(temp1,digits = dig,align = ali),size = "scriptsize",hline.after=c(0:(nrow(temp1)-1)),
+          tabular.environment = "longtable",
+          floating=FALSE,
+          add.to.row = list(pos = as.list(-1),
+                        command = c(paste("\\hline \n \\rowcolor{Pantone} \n"))))
+  }else if (temp$TIPO[1]==3){
+    print(xtable(temp1, digits = dig,
+             #caption = strCaption, label = "testTable"
+             align = ali),
+      size = "scriptsize",
+      #include.rownames = FALSE,
+      include.colnames = FALSE,
+      tabular.environment = "longtable",
+      #caption.placement = "top",
+      hline.after=c(0:(nrow(temp1)-1)),
+      floating=FALSE, # whether \begin{Table} should be created (TRUE) or not (FALSE)
+      #sanitize.text.function = force,
+      add.to.row = list(pos = as.list(-1),
+                                      #:(nrow(temp1)-1)),
+                        command = c(paste("\\hline \n",  # NEW row
+                                          "\\rowcolor{Pantone} \n",
+                                          "\\multicolumn{1}{|c|}{} &",
+                                          paste(paste0("\\multicolumn{2}{C{\\dimexpr0.08\\textwidth+\\arrayrulewidth+2\\tabcolsep\\relax}|}{\\textcolor{white}{", colnames(tablitas[[i]])[seq(1,ncol(tablitas[[i]]),by=2)], "}}"),collapse = " & "),
+                                          "\\\\\n",
+                                          paste0("\\cline{2-",ncol(temp1)+1,
+                                                 "} \\rowcolor{Pantone} \n"),
+                                          paste(c("",rep(c("\\textcolor{white}{N}","\\textcolor{white}{\\%}"),ncol(temp1)/2)),collapse = " & "),  " \\\\\n")#,
+                                    #rep(c("\\rowcolor{PantoneOrange}","\\rowcolor{PantoneSec}"),length.out=nrow(temp1))
+                                    )
+                        )
+      )
+  }else{
+    cat("\n")
+    cat("\\Needspace{20\\baselineskip}\n")
+    if(temp$DIMENSIÓN[1]!=Colut[Colut$NÚMERO==(i-1),]$DIMENSIÓN[1]){
+      cat(paste0("\\textbf{",temp$DIMENSIÓN[1],"}\n\n"))
+    }
+    cat(paste(names(tablitas)[i],sep=""))
+    cat("\n\n")
+    cat("\\begin{figure}[H]\n")
+    cat("\\centering\n")
+    cat(paste0("\\includegraphics[width=0.9\\textwidth]{Preg",i, ".pdf}\n"))
+    cat("\\end{figure}\n")
+  }
+  cat("\n")
+}
+cat("\n\n")
+#cat("<<label=endofTables>>= ")
+@
+
+
+
+\newpage
+
+\section*{Referencias}
+\addcontentsline{toc}{section}{\protect\numberline{}Referencias}
+\noindent Chaín, et al. (mayo - 2003). \textit{Examen de selección y probabilidad de éxito escolar en estudios superiores. Estudio en una universidad pública estatal mexicana.} REDIE. Revista Electrónica de Investigación Educativa, 5 (1), Recuperado de \url{http://www.redalyc.org/pdf/155/15505105.pdf}
+
+\noindent Consejo Nacional para la Coordinación de la Educación Superior. (2022). \textit{Política Nacional de Evaluación y Acreditación de la Educación Superior.} Secretaría de Educación Pública. \url{https://educacionsuperior.sep.gob.mx/conaces/pdf/politica_nacional.pdf }
+
+\noindent Gutiérrez-Monsalve, Jaime A., Garzón, Juan, \& Segura-Cardona, Angela M. (2021). \textit{Factores asociados al rendimiento académico en estudiantes universitarios.} Formación universitaria, 14(1), 13-24. \url{https://dx.doi.org/10.4067/S0718-50062021000100013}
+
+\noindent McKenzie, Kirsten \& Schweitzer, Robert D. (2001) \textit{Who succeeds at university? factors predicting academic performance in first year Australian university students.} Higher Education Research \& Development, 20, pp. 21-33.
+
+\noindent OCDE. (2023). \textit{Education at a Glance 2023: OECD Indicators. Organización para la Cooperación y el Desarrollo Económico.} \url{https://doi.org/10.1787/69096873-en}
+
+\noindent Surdez, E. G., Sandoval, M del C. y Lamoyi, C. L. (2018).\textit{Satisfacción estudiantil en la valoración de la calidad educativa universitaria.} Educación y Educadores, 21(1), 9-26. \url{https://doi.org/10.5294/edu.2018.21.1.1}
+
+\noindent Tinto, V. (1989). \textit{Definir la deserción: una cuestión de perspectiva.} Revista de la Educación Superior (71), 33-51.
+
+\noindent UNESCO. (2021). \textit{Reimagining our futures together: A new social contract for education.} Organización de las Naciones Unidas para la Educación, la Ciencia y la Cultura. \url{https://unesdoc.unesco.org/ark:/48223/pf0000379707}
+
+\noindent Universidad Autónoma del Estado de Hidalgo (2024). \textit{Plan de Desarrollo Institucional 2024 – 2029.} Recuperado de \url{https://www.uaeh.edu.mx/excelencia/vision.htm}
+
+\noindent R Core Team (2024). R: A Language and Environment for Statistical Computing. R Foundation for Statistical Computing, Vienna, Austria. <\url{https://www.R-project.org/}>
+<<label=bye, include=FALSE, echo=FALSE>>= 
+#endt<-proc.time()[3]
+#elapsedtime<-as.numeric(endt-startt)
+@ 
+<<label=elapsed, include=FALSE, echo=FALSE>>=
+#fileConn<-file("time.tex", "wt") 
+#writeLines(as.character(elapsedtime), fileConn) 
+#close(fileConn) 
+@ 
+
+\end{document}
