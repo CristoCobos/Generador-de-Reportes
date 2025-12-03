@@ -168,9 +168,30 @@ T2
 
 Binaria <- BaseG %>%
   select(all_of(T2)) %>%
-  mutate(across(everything(), ~strsplit(as.character(.), ",\\s*")))
+  mutate(across(everything(), ~str_split_fixed(.,", ",3)))
 
+Binario1<-data.frame(matrix(0,ncol = 10,nrow = 1582))
+colnames(Binario1)<-Clave$DESCRIPCIÓN[which(Clave$NOMENCLATURA==T2[1])]
+
+Binarios<-list()
+for(i in seq(length(T2))){
+  Desc1<-Clave$DESCRIPCIÓN[which(Clave$NOMENCLATURA==T2[i])]
+  Binarios[[i]]<-data.frame(sapply(Desc1,function(X) grepl(X,BaseG[,T2[i]])),check.names = F)
+}
+
+Binario<-sapply(T2,function(Y) data.frame(sapply(Clave$DESCRIPCIÓN[which(Clave$NOMENCLATURA==Y)],function(X) grepl(X,BaseG[,Y])),check.names = F))
+
+for (i in names(Binario)) {
+  colnames(Binario[[i]])<-paste0(i," - ",colnames(Binario[[i]]))
+}
+
+Clave$NOMENCLATURA[which(Clave$TIPO==2)]<-paste0(Clave$NOMENCLATURA[which(Clave$TIPO==2)]," - ",Clave$DESCRIPCIÓN[which(Clave$TIPO==2)])
+
+BinarioUnido<-Reduce(cbind,Binario)
+
+BaseG<-cbind(BaseG,BinarioUnido)
 ###
+
 subtablas<- list()
 for(col in T2){
   titulo<-col
